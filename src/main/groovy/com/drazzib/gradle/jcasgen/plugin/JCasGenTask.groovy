@@ -24,41 +24,32 @@ import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.compile.AbstractCompile
 
 /**
- * Generates UIMA java typesystem from XML descriptor.
+ * Call 'Jg' tool to generate UIMA java typesystem from XML descriptor(s).
  *
  * @author Damien Raude-Morvan
  */
-class JCasGenTask extends ConventionTask {
+class JCasGenTask extends AbstractCompile {
 
-    /**
-     * The classpath containing the UIMA 'Jg' CLI command.
-     * <p>
-     * This is implemented dynamically from the task's convention mapping setup in <code>JCasGenPlugin</code>
-     *
-     * @see JCasGenPlugin
-     */
-    @InputFiles
-    FileCollection jcasgenFiles
+    protected void compile() {
+        getDestinationDir().mkdir()
+        logger.debug "JCasGen using files ${getSource().getFiles()}"
 
-    /**
-     * The directory to generate the parser source files into
-     */
-    @OutputDirectory
-    File outputDirectory
-
-    @TaskAction
-    def generate() {
-        // run JCasGen to generate the Java sources
-        Jg jCasGen = new Jg();
-        args = [
-                "-jcasgeninput",
-                this.jcasgenFiles.toString(),
-                "-jcasgenoutput",
-                this.outputDirectory.getAbsolutePath()
-        ];
-        jCasGen.main0(args, null, new JCasGenProgressMonitor(), new JCasGenErrors());
+        def allDescriptors = getSource().getFiles()
+        allDescriptors.each {File file ->
+            println file.name
+            // run JCasGen to generate the Java sources
+            Jg jCasGen = new Jg();
+            def String[] args = [
+                    "-jcasgeninput",
+                    file,
+                    "-jcasgenoutput",
+                    getDestinationDir()
+            ];
+            jCasGen.main0(args, null, new JCasGenProgressMonitor(), new JCasGenErrors());
+        }
     }
 
     class JCasGenProgressMonitor implements IProgressMonitor {
@@ -67,16 +58,13 @@ class JCasGenTask extends ConventionTask {
         public void done() {
         }
 
-        @Override
         public void beginTask(String name, int totalWorked) {
         }
 
-        @Override
         public void subTask(String message) {
-            getLog().info("JCasGen: " + message);
+            print message
         }
 
-        @Override
         public void worked(int work) {
         }
     }
@@ -86,20 +74,15 @@ class JCasGenTask extends ConventionTask {
         public void newError(int severity, String message, Exception exception) {
             String fullMessage = "JCasGen: " + message;
             if (severity == IError.INFO) {
-                getLog().info(fullMessage, exception);
+                print fullMessage
             } else if (severity == IError.WARN) {
-                getLog().warn(fullMessage, exception);
+                print fullMessage
             } else if (severity == IError.ERROR) {
-                throw new JCasGenException(exception.getMessage(), exception);
+                print fullMessage
             } else {
                 throw new UnsupportedOperationException("Unknown severity level: " + severity);
             }
         }
     }
 
-    class JCasGenException extends RuntimeException {
-        public JCasGenException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
 }
