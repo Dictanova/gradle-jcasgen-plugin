@@ -27,6 +27,7 @@ import org.gradle.api.internal.file.FileResolver
  * @author Damien Raude-Morvan
  */
 class JCasGenSourceDirectory {
+
     /**
      * All JCasGen source for this source set
      */
@@ -34,7 +35,7 @@ class JCasGenSourceDirectory {
 
     JCasGenSourceDirectory(String parentDisplayName, FileResolver fileResolver) {
         jcasgen = new DefaultSourceDirectorySet("${parentDisplayName} JCasGen source", fileResolver)
-        jcasgen.filter.include("**/*.xml")
+        jcasgen.filter.include("**/*_TS.xml")
     }
 
     /**
