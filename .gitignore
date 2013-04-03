@@ -1,6 +1,13 @@
+# Binary #
 *.class
+.gradle
+build
 
 # Package Files #
 *.jar
 *.war
 *.ear
+
+# IDEA #
+*.iml
+.idea
