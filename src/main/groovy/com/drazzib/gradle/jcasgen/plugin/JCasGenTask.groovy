@@ -18,12 +18,6 @@ package com.drazzib.gradle.jcasgen.plugin
 import org.apache.uima.tools.jcasgen.IError
 import org.apache.uima.tools.jcasgen.IProgressMonitor
 import org.apache.uima.tools.jcasgen.Jg
-import org.gradle.api.file.FileCollection
-import org.gradle.api.internal.ConventionTask
-import org.gradle.api.tasks.InputFiles
-import org.gradle.api.tasks.JavaExec
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.compile.AbstractCompile
 
 /**
@@ -34,19 +28,22 @@ import org.gradle.api.tasks.compile.AbstractCompile
 class JCasGenTask extends AbstractCompile {
 
     protected void compile() {
-        getDestinationDir().mkdir()
-        logger.debug "JCasGen using files ${getSource().getFiles()}"
+        destinationDir.mkdir()
+        logger.debug "JCasGen using files ${source.files}"
 
-        def allDescriptors = getSource().getFiles()
-        allDescriptors.each {File file ->
-            println file.name
+        def allDescriptors = source.files
+        allDescriptors.each { File file ->
+            logger.debug "${file}"
+            logger.debug "${classpath.asPath}"
             // run JCasGen to generate the Java sources
             Jg jCasGen = new Jg();
             def String[] args = [
                     "-jcasgeninput",
                     file,
                     "-jcasgenoutput",
-                    getDestinationDir()
+                    destinationDir,
+                    "=jcasgenclasspath",
+                    classpath.asPath
             ];
             jCasGen.main0(args, null, new JCasGenProgressMonitor(), new JCasGenErrors());
         }
@@ -54,7 +51,6 @@ class JCasGenTask extends AbstractCompile {
 
     class JCasGenProgressMonitor implements IProgressMonitor {
 
-        @Override
         public void done() {
         }
 
@@ -62,7 +58,7 @@ class JCasGenTask extends AbstractCompile {
         }
 
         public void subTask(String message) {
-            print message
+            println message
         }
 
         public void worked(int work) {
@@ -72,13 +68,13 @@ class JCasGenTask extends AbstractCompile {
     class JCasGenErrors implements IError {
 
         public void newError(int severity, String message, Exception exception) {
-            String fullMessage = "JCasGen: " + message;
+            String fullMessage = "JCasGen: " + message + exception;
             if (severity == IError.INFO) {
-                print fullMessage
+                println fullMessage
             } else if (severity == IError.WARN) {
-                print fullMessage
+                println fullMessage
             } else if (severity == IError.ERROR) {
-                print fullMessage
+                println fullMessage
             } else {
                 throw new UnsupportedOperationException("Unknown severity level: " + severity);
             }
