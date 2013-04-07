@@ -74,7 +74,7 @@ class JCasGenPlugin implements Plugin<Project> {
         jcasgenTask.group = GENERATE_GROUP
         jcasgenTask.description = "Generates code from the ${sourceSet.name} JCasGen typesystem."
         jcasgenTask.conventionMapping.map("classpath") {
-            return sourceSet.getCompileClasspath()
+            return sourceSet.compileClasspath + project.files(sourceSet.resources.srcDirs)
         }
         /*jcasgenTask.conventionMapping.map("typeSystemDir") {
             return project.convention.plugins.jcasgen.typeSystemDir
