@@ -12,10 +12,10 @@ Configure the plugin in your project as follows:
 ```groovy
 buildscript {
     repositories {
-        maven { url 'http://repository-drazzib.forge.cloudbees.com/release/' }
+        maven { url 'http://repository-drazzib.forge.cloudbees.com/snapshot/' }
     }
     dependencies {
-        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.1'
+        classpath 'com.drazzib.gradle.jcasgen.plugin:gradle-jcasgen-plugin:0.1-SNAPSHOT'
     }
 }
 
@@ -25,7 +25,7 @@ apply plugin: 'jcasgen'
 ```
 
 ## Usage
-UIMA type system XML descriptor(s) have to been in :
+UIMA type system XML descriptor(s) files have to been in :
 ```
 src/main/typesystem
 ```
