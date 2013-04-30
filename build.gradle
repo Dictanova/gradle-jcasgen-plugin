@@ -20,6 +20,12 @@ apply plugin: 'maven'
 group "com.drazzib.gradle.jcasgen.plugin"
 version "0.1-SNAPSHOT"
 
+configure(new Properties()) { 
+	load(new FileInputStream(new File('/private/drazzib/gradle.properties')) 
+}.each { key, value -> 
+	ext."$key" = value 
+} 
+
 repositories {
     mavenCentral()
     mavenLocal()
@@ -40,7 +46,7 @@ dependencies {
 uploadArchives {
     repositories.mavenDeployer {
         configureAuth = {
-            authentication(userName: cloudbeesUsername, password: cloudbeesPassword)
+            authentication(userName: ext.cloudbeesUsername, password: ext.cloudbeesPassword)
         }
         configuration = configurations.deployerJars
         repository(url: "dav:https://repository-drazzib.forge.cloudbees.com/release", configureAuth)
