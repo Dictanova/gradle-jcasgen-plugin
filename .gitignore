@@ -1,13 +1,15 @@
 # Binary #
 *.class
-.gradle
-build
+build/
+bin/
+.gradle/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
 # IDEA #
 *.iml
-.idea
+.idea/
+atlassian-ide-plugin.xml
+
