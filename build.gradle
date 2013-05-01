@@ -39,12 +39,14 @@ dependencies {
 
 uploadArchives {
     repositories.mavenDeployer {
-        configureAuth = {
-            authentication(userName: cloudbeesUsername, password: cloudbeesPassword)
-        }
+        def credentials = [
+		userName: "${cloudbeesUsername}", password: "${cloudbeesPassword}"
+        ]
         configuration = configurations.deployerJars
-        repository(url: "dav:https://repository-drazzib.forge.cloudbees.com/release", configureAuth)
-        snapshotRepository(url: "dav:https://repository-drazzib.forge.cloudbees.com/snapshot", configureAuth)
+        repository(url: "dav:https://repository-drazzib.forge.cloudbees.com/release", authentication: 
+credentials)
+        snapshotRepository(url: "dav:https://repository-drazzib.forge.cloudbees.com/snapshot", authentication: 
+credentials)
     }
 }
 
