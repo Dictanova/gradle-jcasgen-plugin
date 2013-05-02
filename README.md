@@ -35,3 +35,12 @@ You can generate UIMA type system using generateTypeSystem directly or using bui
 $ gradle generateTypeSystem
 $ gradle build
 ```
+
+## Build
+If you want to build this plugin from a Git checkout, please use Gradle Wrapper :
+```
+./gradlew clean build install
+```
+
+You can check latest Continuous Integration status on CloudBees :
+https://drazzib.ci.cloudbees.com/job/gradle-jcasgen-plugin/
