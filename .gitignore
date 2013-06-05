@@ -10,6 +10,12 @@ bin/
 
 # IDEA #
 *.iml
+*.ipr
+*.iws
 .idea/
 atlassian-ide-plugin.xml
 
+# Eclipse #
+.classpath
+.project
+.settings
