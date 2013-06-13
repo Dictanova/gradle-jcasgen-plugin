@@ -10,6 +10,7 @@ buildscript {
     }
 }
 // Enable plugins
+apply plugin: 'java'
 apply plugin: 'jcasgen'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
