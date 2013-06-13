@@ -33,7 +33,7 @@ configurations {
 
 dependencies {
     compile gradleApi()
-    groovy localGroovy()
+    compile localGroovy()
     compile 'org.apache.uima:uimaj-tools:2.4.0'
     // to use WebDav protocol on upload
     deployerJars 'org.apache.maven.wagon:wagon-webdav:1.0-beta-2'

@@ -39,7 +39,7 @@ class JCasGenPlugin implements Plugin<Project> {
 
     private setupJCasGenFor(SourceSet sourceSet, Project project) {
         def configName = (sourceSet.getName().equals(SourceSet.MAIN_SOURCE_SET_NAME) ? "jcasgen" : sourceSet.getName() + "Jcasgen")
-        project.configurations.add(configName) {
+        project.configurations.create(configName) {
             visible = false
             transitive = false
             description = "The JCasGen libraries to be used for this project."
@@ -70,7 +70,7 @@ class JCasGenPlugin implements Plugin<Project> {
 
     private Task createJCasGenTaskFor(SourceSet sourceSet, Project project) {
         def taskName = taskName(sourceSet)
-        def jcasgenTask = project.tasks.add(taskName, JCasGenTask)
+        def jcasgenTask = project.tasks.create(taskName, JCasGenTask)
         jcasgenTask.group = GENERATE_GROUP
         jcasgenTask.description = "Generates code from the ${sourceSet.name} JCasGen typesystem."
         jcasgenTask.conventionMapping.map("classpath") {
