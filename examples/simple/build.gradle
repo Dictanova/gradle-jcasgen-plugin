@@ -1,0 +1,23 @@
+// Declare buildscript dependencies
+buildscript {
+    repositories {
+	mavenCentral()
+        maven { url 'http://repository-drazzib.forge.cloudbees.com/snapshot/' }
+    }
+    dependencies {
+        classpath 'com.drazzib.gradle.jcasgen.plugin:gradle-jcasgen-plugin:0.1-SNAPSHOT'
+    }
+}
+// Enable plugins
+apply plugin: 'jcasgen'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+
+// Project dependencies
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'org.apache.uima:uimaj-core:2.4.0'
+}
