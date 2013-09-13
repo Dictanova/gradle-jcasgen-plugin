@@ -15,6 +15,8 @@
 */
 package com.drazzib.gradle.jcasgen.plugin
 
+import com.drazzib.gradle.jcasgen.plugin.enhancements.EclipseEnhancement
+import com.drazzib.gradle.jcasgen.plugin.enhancements.IDEAEnhancement
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -35,6 +37,8 @@ class JCasGenPlugin implements Plugin<Project> {
         project.sourceSets.all { SourceSet sourceSet ->
             setupJCasGenFor(sourceSet, project)
         }
+
+        configureEnhancements(project)
     }
 
     private setupJCasGenFor(SourceSet sourceSet, Project project) {
@@ -96,5 +100,13 @@ class JCasGenPlugin implements Plugin<Project> {
 
     private String taskName(SourceSet sourceSet) {
         return sourceSet.getTaskName('generate', 'TypeSystem')
+    }
+
+    /**
+     * Configure enhancements so that other Gradle plugins can be "enhanced" by custom behavior.
+     */
+    private void configureEnhancements(Project project) {
+        new EclipseEnhancement(project).apply()
+        new IDEAEnhancement(project).apply()
     }
 }
