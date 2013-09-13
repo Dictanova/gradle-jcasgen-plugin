@@ -34,7 +34,7 @@ configurations {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'org.apache.uima:uimaj-tools:2.4.0'
+    compile 'org.apache.uima:uimaj-tools:2.4.2'
     // to use WebDav protocol on upload
     deployerJars 'org.apache.maven.wagon:wagon-webdav:1.0-beta-2'
 }
@@ -42,7 +42,7 @@ dependencies {
 uploadArchives {
     repositories.mavenDeployer {
         def credentials = [
-		userName: "${cloudbeesUsername}", password: "${cloudbeesPassword}"
+		userName: "${CLOUDBEES_USERNAME}", password: "${CLOUDBEES_PASSWORD}"
         ]
         configuration = configurations.deployerJars
         repository(url: "dav:https://repository-drazzib.forge.cloudbees.com/release", authentication: 
