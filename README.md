@@ -12,10 +12,12 @@ Configure the plugin in your project as follows:
 ```groovy
 buildscript {
     repositories {
+        mavenLocal()
+        mavenCentral()
         maven { url 'http://repository-drazzib.forge.cloudbees.com/snapshot/' }
     }
     dependencies {
-        classpath 'com.drazzib.gradle.jcasgen.plugin:gradle-jcasgen-plugin:0.1-SNAPSHOT'
+        classpath 'com.dictanova.jcasgen.gradle:gradle-jcasgen-plugin:0.1-SNAPSHOT'
     }
 }
 
