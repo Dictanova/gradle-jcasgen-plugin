@@ -18,16 +18,23 @@ package com.dictanova.jcasgen.gradle
 import org.apache.uima.tools.jcasgen.IError
 import org.apache.uima.tools.jcasgen.IProgressMonitor
 import org.apache.uima.tools.jcasgen.Jg
-import org.gradle.api.tasks.compile.AbstractCompile
+import org.gradle.api.file.FileCollection
+import org.gradle.api.tasks.SourceTask
+import org.gradle.api.tasks.TaskAction
 
 /**
  * Call 'Jg' tool to generate UIMA java typesystem from XML descriptor(s).
  *
  * @author Damien Raude-Morvan
  */
-class JCasGenTask extends AbstractCompile {
+class JCasGenTask extends SourceTask {
 
-    protected void compile() {
+    FileCollection classpath;
+
+    File destinationDir
+
+    @TaskAction
+    void compile() {
         destinationDir.mkdir()
         logger.debug "JCasGen using files ${source.files}"
 
@@ -42,7 +49,7 @@ class JCasGenTask extends AbstractCompile {
                     file,
                     "-jcasgenoutput",
                     destinationDir,
-                    "=jcasgenclasspath",
+                    "-jcasgenclasspath",
                     classpath.asPath
             ];
             jCasGen.main0(args, null, new JCasGenProgressMonitor(), new JCasGenErrors());
