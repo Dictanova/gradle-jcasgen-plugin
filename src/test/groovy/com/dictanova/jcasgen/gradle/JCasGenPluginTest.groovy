@@ -15,7 +15,6 @@
 */
 package com.dictanova.jcasgen.gradle
 
-import com.dictanova.jcasgen.gradle.JCasGenTask
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Test
