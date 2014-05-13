@@ -1,5 +1,5 @@
 /*
-* Copyright 2013 Damien Raude-Morvan
+* Copyright 2013-2014 Damien Raude-Morvan
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.drazzib.gradle.jcasgen.plugin
+package com.dictanova.jcasgen.gradle
 
-import com.drazzib.gradle.jcasgen.plugin.enhancements.EclipseEnhancement
-import com.drazzib.gradle.jcasgen.plugin.enhancements.IDEAEnhancement
+import com.dictanova.jcasgen.gradle.enhancements.EclipseEnhancement
+import com.dictanova.jcasgen.gradle.enhancements.IDEAEnhancement
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task

@@ -1,5 +1,5 @@
 /*
-* Copyright 2013 Damien Raude-Morvan
+* Copyright 2013-2014 Damien Raude-Morvan
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -13,20 +13,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.drazzib.gradle.jcasgen.plugin
+package com.dictanova.jcasgen.gradle.enhancements
 
-import org.gradle.api.Project
+import org.gradle.api.Project;
 
 /**
  * @author Damien Raude-Morvan
  */
-class JCasGenConvention {
+class GradlePluginEnhancement {
 
-    def JCasGenConvention(Project project) {
+    protected Project project
+    protected ant
+
+    GradlePluginEnhancement(Project project) {
+        this.project = project
+        this.ant = project.ant
     }
-
-    /**
-     * XML descriptor which contains UIMA type system.
-     */
-    def String typeSystemDir
 }

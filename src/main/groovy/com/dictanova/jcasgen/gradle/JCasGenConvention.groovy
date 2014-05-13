@@ -1,5 +1,5 @@
 /*
-* Copyright 2013 Damien Raude-Morvan
+* Copyright 2013-2014 Damien Raude-Morvan
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -13,24 +13,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.drazzib.gradle.jcasgen.plugin
+package com.dictanova.jcasgen.gradle
 
 import org.gradle.api.Project
-import org.gradle.testfixtures.ProjectBuilder
-import org.junit.Test
-
-import static org.junit.Assert.assertTrue
 
 /**
  * @author Damien Raude-Morvan
  */
-class JCasGenPluginTest {
+class JCasGenConvention {
 
-    @Test
-    public void jcasgenPluginAddsGenerateTypeSystemToProject() {
-        Project project = ProjectBuilder.builder().build()
-        project.apply plugin: 'jcasgen'
-
-        assertTrue(project.tasks.generateTypeSystem instanceof JCasGenTask)
+    def JCasGenConvention(Project project) {
     }
+
+    /**
+     * XML descriptor which contains UIMA type system.
+     */
+    def String typeSystemDir
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright 2013 Damien Raude-Morvan
+* Copyright 2013-2014 Damien Raude-Morvan
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -13,20 +13,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.drazzib.gradle.jcasgen.plugin.enhancements
+package com.dictanova.jcasgen.gradle
 
-import org.gradle.api.Project;
+import com.dictanova.jcasgen.gradle.JCasGenTask
+import org.gradle.api.Project
+import org.gradle.testfixtures.ProjectBuilder
+import org.junit.Test
+
+import static org.junit.Assert.assertTrue
 
 /**
  * @author Damien Raude-Morvan
  */
-class GradlePluginEnhancement {
+class JCasGenPluginTest {
 
-    protected Project project
-    protected ant
+    @Test
+    public void jcasgenPluginAddsGenerateTypeSystemToProject() {
+        Project project = ProjectBuilder.builder().build()
+        project.apply plugin: 'jcasgen'
 
-    GradlePluginEnhancement(Project project) {
-        this.project = project
-        this.ant = project.ant
+        assertTrue(project.tasks.generateTypeSystem instanceof JCasGenTask)
     }
 }
