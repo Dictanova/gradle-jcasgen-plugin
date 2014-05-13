@@ -15,8 +15,7 @@
 */
 package com.dictanova.jcasgen.gradle.enhancements
 
-import com.dictanova.jcasgen.gradle.enhancements.GradlePluginEnhancement
-import org.gradle.api.Project;
+import org.gradle.api.Project
 
 /**
  * @author Damien Raude-Morvan
