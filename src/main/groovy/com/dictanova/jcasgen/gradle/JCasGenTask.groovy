@@ -68,7 +68,7 @@ class JCasGenTask extends SourceTask {
         }
 
         public void subTask(String message) {
-            println message
+            JCasGenTask.this.logger.info message
         }
 
         public void worked(int work) {
@@ -80,11 +80,11 @@ class JCasGenTask extends SourceTask {
         public void newError(int severity, String message, Exception exception) {
             String fullMessage = "JCasGen: " + message + exception;
             if (severity == IError.INFO) {
-                println fullMessage
+                JCasGenTask.this.logger.info fullMessage
             } else if (severity == IError.WARN) {
-                println fullMessage
+                JCasGenTask.this.logger.warn fullMessage
             } else if (severity == IError.ERROR) {
-                println fullMessage
+                JCasGenTask.this.logger.error fullMessage
             } else {
                 throw new UnsupportedOperationException("Unknown severity level: " + severity);
             }
