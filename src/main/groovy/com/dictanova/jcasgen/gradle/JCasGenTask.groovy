@@ -38,21 +38,22 @@ class JCasGenTask extends SourceTask {
         destinationDir.mkdir()
         logger.debug "JCasGen using files ${source.files}"
 
+        Jg jCasGen = new Jg();
         def allDescriptors = source.files
         allDescriptors.each { File file ->
             logger.debug "${file}"
             logger.debug "${classpath.asPath}"
+            def jgArgs = []
+            jgArgs << "-jcasgeninput"
+            jgArgs << file
+            jgArgs << "-jcasgenoutput"
+            jgArgs << destinationDir
+            jgArgs << "-jcasgenclasspath"
+            jgArgs << classpath.asPath
+            logger.debug "Launch Jg with args ${jgArgs}"
+
             // run JCasGen to generate the Java sources
-            Jg jCasGen = new Jg();
-            def String[] args = [
-                    "-jcasgeninput",
-                    file,
-                    "-jcasgenoutput",
-                    destinationDir,
-                    "-jcasgenclasspath",
-                    classpath.asPath
-            ];
-            jCasGen.main0(args, null, new JCasGenProgressMonitor(), new JCasGenErrors());
+            jCasGen.main0(jgArgs as String[], null, new JCasGenProgressMonitor(), new JCasGenErrors());
         }
     }
 
