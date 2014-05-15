@@ -19,6 +19,7 @@ import org.apache.uima.tools.jcasgen.IError
 import org.apache.uima.tools.jcasgen.IProgressMonitor
 import org.apache.uima.tools.jcasgen.Jg
 import org.gradle.api.file.FileCollection
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskAction
 
@@ -31,10 +32,11 @@ class JCasGenTask extends SourceTask {
 
     FileCollection classpath;
 
+    @OutputDirectory
     File destinationDir
 
     @TaskAction
-    void compile() {
+    void generate() {
         destinationDir.mkdir()
         logger.debug "JCasGen using files ${source.files}"
 
