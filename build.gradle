@@ -21,7 +21,6 @@ apply plugin: 'eclipse'
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 configurations {
@@ -30,6 +29,7 @@ configurations {
 
 dependencies {
     compile gradleApi()
+    compile localGroovy()
     compile "org.apache.uima:uimaj-tools:${uimaVersion}"
     // to use WebDav protocol on upload
     deployerJars 'org.apache.maven.wagon:wagon-webdav-jackrabbit:2.6'
@@ -49,5 +49,5 @@ uploadArchives {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.12'
+    gradleVersion = "2.1-20140717111533+0000"
 }
