@@ -23,6 +23,7 @@ buildscript {
     }
 }
 
+apply plugin: 'java-gradle-plugin'
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
@@ -80,9 +81,10 @@ bintray {
         vcsUrl = 'https://github.com/Dictanova/gradle-jcasgen-plugin.git'
         labels = ['gradle', 'uima', 'jcasgen']
         publicDownloadNumbers = true
+        attributes = ['gradle-plugin': 'com.dictanova.jcasgen:com.dictanova.jcasgen.gradle:gradle-jcasgen-plugin']
+        version = [
+                name      : version,
+                attributes: ['gradle-plugin': 'com.dictanova.jcasgen:com.dictanova.jcasgen.gradle:gradle-jcasgen-plugin']
+        ]
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = "2.1-20140717111533+0000"
 }
