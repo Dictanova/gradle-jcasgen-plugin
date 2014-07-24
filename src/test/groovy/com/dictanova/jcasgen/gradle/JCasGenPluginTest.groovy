@@ -29,7 +29,7 @@ class JCasGenPluginTest {
     @Test
     public void jcasgenPluginAddsGenerateTypeSystemToProject() {
         Project project = ProjectBuilder.builder().build()
-        project.apply plugin: 'jcasgen'
+        project.apply plugin: 'com.dictanova.jcasgen'
 
         assertTrue(project.tasks.generateTypeSystem instanceof JCasGenTask)
     }
