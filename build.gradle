@@ -83,7 +83,6 @@ bintray {
         publicDownloadNumbers = true
         attributes = ['gradle-plugin': 'com.dictanova.jcasgen:com.dictanova.jcasgen.gradle:gradle-jcasgen-plugin']
         version = [
-                name      : version,
                 attributes: ['gradle-plugin': 'com.dictanova.jcasgen:com.dictanova.jcasgen.gradle:gradle-jcasgen-plugin']
         ]
     }
