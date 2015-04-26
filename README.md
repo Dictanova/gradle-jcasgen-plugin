@@ -7,11 +7,11 @@ gradle-jcasgen-plugin
 [![Build Status](https://drone.io/github.com/Dictanova/gradle-jcasgen-plugin/status.png)](https://drone.io/github.com/Dictanova/gradle-jcasgen-plugin/latest)
 
 ## Overview
-Generate [Apache UIMA](http://uima.apache.org) type system from an XML descriptor.
-It launch UIMA JCasGen tool (Jg) from gradle build.
+Generates a [Apache UIMA](http://uima.apache.org) type system from an XML descriptor.
+It launches the UIMA JCasGen tool (Jg) from a gradle build.
 
 ## Configuration
-Configure the plugin in your project as follows:
+You can configure the plugin in your project as follows:
 ```groovy
 buildscript {
   repositories {
@@ -26,12 +26,12 @@ apply plugin: "com.dictanova.jcasgen"
 ```
 
 ## Usage
-UIMA type system XML descriptor(s) files have to been in :
+UIMA type system XML descriptor(s) files have to be located in :
 ```
 src/main/typesystem
 ```
 
-You can generate UIMA type system using generateTypeSystem directly or using build task:
+You can generate a UIMA type system by using the `generateTypeSystem` task directly or by using the `build` task:
 ```
 $ gradle generateTypeSystem
 $ gradle build
