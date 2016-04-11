@@ -18,6 +18,7 @@ package com.dictanova.jcasgen.gradle
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.internal.file.DefaultSourceDirectorySet
 import org.gradle.api.internal.file.FileResolver
+import org.gradle.api.internal.file.collections.DefaultDirectoryFileTreeFactory
 
 /**
  * A handler for a virtual directory mapping, injecting a virtual directory named 'jcasgen'
@@ -34,7 +35,7 @@ class JCasGenSourceDirectory {
     def SourceDirectorySet jcasgen
 
     JCasGenSourceDirectory(String parentDisplayName, FileResolver fileResolver) {
-        jcasgen = new DefaultSourceDirectorySet("${parentDisplayName} JCasGen source", fileResolver)
+        jcasgen = new DefaultSourceDirectorySet("${parentDisplayName} JCasGen source", fileResolver, new DefaultDirectoryFileTreeFactory())
         jcasgen.filter.include("**/*_TS.xml")
     }
 
