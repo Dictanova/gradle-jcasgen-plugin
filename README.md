@@ -15,10 +15,12 @@ You can configure the plugin in your project as follows:
 ```groovy
 buildscript {
   repositories {
-    jcenter()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
   }
   dependencies {
-    classpath "com.dictanova.jcasgen.gradle:gradle-jcasgen-plugin:0.2"
+    classpath "gradle.plugin.com.dictanova.jcasgen.gradle:gradle-jcasgen-plugin:0.4"
   }
 }
 
