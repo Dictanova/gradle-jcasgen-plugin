@@ -32,7 +32,7 @@ class EclipseEnhancement extends GradlePluginEnhancement {
     void apply() {
         project.gradle.taskGraph.whenReady { taskGraph ->
             if (!project.plugins.hasPlugin('eclipse'))
-                return;
+                return
 
             project.eclipse.classpath {
                 file {

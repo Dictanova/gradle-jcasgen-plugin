@@ -19,6 +19,7 @@ import org.apache.uima.tools.jcasgen.IError
 import org.apache.uima.tools.jcasgen.IProgressMonitor
 import org.apache.uima.tools.jcasgen.Jg
 import org.gradle.api.file.FileCollection
+import org.gradle.api.tasks.Classpath
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskAction
@@ -30,7 +31,8 @@ import org.gradle.api.tasks.TaskAction
  */
 class JCasGenTask extends SourceTask {
 
-    FileCollection classpath;
+    @Classpath
+    FileCollection classpath
 
     @OutputDirectory
     File destinationDir
@@ -40,7 +42,7 @@ class JCasGenTask extends SourceTask {
         destinationDir.mkdir()
         logger.debug "JCasGen using files ${source.files}"
 
-        Jg jCasGen = new Jg();
+        Jg jCasGen = new Jg()
         def allDescriptors = source.files
         allDescriptors.each { File file ->
             logger.debug "${file}"
@@ -55,7 +57,7 @@ class JCasGenTask extends SourceTask {
             logger.debug "Launch Jg with args ${jgArgs}"
 
             // run JCasGen to generate the Java sources
-            jCasGen.main0(jgArgs as String[], null, new JCasGenProgressMonitor(), new JCasGenErrors());
+            jCasGen.main0(jgArgs as String[], null, new JCasGenProgressMonitor(), new JCasGenErrors())
         }
     }
 
@@ -78,7 +80,7 @@ class JCasGenTask extends SourceTask {
     class JCasGenErrors implements IError {
 
         public void newError(int severity, String message, Exception exception) {
-            String fullMessage = "JCasGen: " + message + exception;
+            String fullMessage = "JCasGen: " + message + exception
             if (severity == IError.INFO) {
                 JCasGenTask.this.logger.info fullMessage
             } else if (severity == IError.WARN) {
@@ -86,7 +88,7 @@ class JCasGenTask extends SourceTask {
             } else if (severity == IError.ERROR) {
                 JCasGenTask.this.logger.error fullMessage
             } else {
-                throw new UnsupportedOperationException("Unknown severity level: " + severity);
+                throw new UnsupportedOperationException("Unknown severity level: " + severity)
             }
         }
     }

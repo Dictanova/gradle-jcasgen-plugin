@@ -29,7 +29,7 @@ class IDEAEnhancement extends GradlePluginEnhancement {
     void apply() {
         project.gradle.taskGraph.whenReady { taskGraph ->
             if (!project.plugins.hasPlugin('idea'))
-                return;
+                return
 
             project.idea.module {
                 iml {

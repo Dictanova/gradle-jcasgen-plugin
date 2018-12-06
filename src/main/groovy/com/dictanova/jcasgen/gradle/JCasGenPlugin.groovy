@@ -33,7 +33,7 @@ class JCasGenPlugin implements Plugin<Project> {
 
     void apply(Project project) {
         project.apply plugin: 'java'
-        project.convention.plugins.jcasgen = new JCasGenConvention(project);
+        project.convention.plugins.jcasgen = new JCasGenConvention(project)
         project.sourceSets.all { SourceSet sourceSet ->
             setupJCasGenFor(sourceSet, project)
         }
@@ -56,8 +56,8 @@ class JCasGenPlugin implements Plugin<Project> {
         Task jcasgenTask = createJCasGenTaskFor(sourceSet, project)
 
         // Generate source code before java compile
-        String compileJavaTaskName = sourceSet.getCompileTaskName("java");
-        Task compileJavaTask = project.tasks.getByName(compileJavaTaskName);
+        String compileJavaTaskName = sourceSet.getCompileTaskName("java")
+        Task compileJavaTask = project.tasks.getByName(compileJavaTaskName)
         compileJavaTask.dependsOn(jcasgenTask)
     }
 
