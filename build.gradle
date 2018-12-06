@@ -14,22 +14,30 @@
 * limitations under the License.
 */
 
+// https://docs.gradle.org/current/userguide/java_gradle_plugin.html
 plugins {
-  id "com.gradle.plugin-publish" version "0.9.4"
-  id "groovy"
+  id 'java-gradle-plugin'
+  id 'groovy'
+  id 'com.gradle.plugin-publish' version '0.10.0'
 }
 
 repositories {
   jcenter()
 }
+
 dependencies {
     compile gradleApi()
     compile localGroovy()
     compile "org.apache.uima:uimaj-tools:${uimaVersion}"
+
+    // https://docs.gradle.org/current/userguide/test_kit.html
+    testImplementation gradleTestKit()
+    testImplementation 'junit:junit:4.12'
 }
 
 // The configuration example below shows the minimum required properties
 // configured to publish your plugin to the plugin portal
+// https://guides.gradle.org/publishing-plugins-to-gradle-plugin-portal/
 pluginBundle {
   website = 'https://github.com/Dictanova/gradle-jcasgen-plugin'
   vcsUrl = 'https://github.com/Dictanova/gradle-jcasgen-plugin.git'
