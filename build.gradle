@@ -16,8 +16,9 @@
 
 // https://docs.gradle.org/current/userguide/java_gradle_plugin.html
 plugins {
-  id 'java-gradle-plugin'
   id 'groovy'
+  id 'maven-publish'
+  id 'java-gradle-plugin'
   id 'com.gradle.plugin-publish' version '0.10.0'
 }
 
@@ -28,7 +29,7 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile "org.apache.uima:uimaj-tools:${uimaVersion}"
+    compileOnly "org.apache.uima:uimaj-tools:${uimaVersion}"
 
     // https://docs.gradle.org/current/userguide/test_kit.html
     testImplementation gradleTestKit()
