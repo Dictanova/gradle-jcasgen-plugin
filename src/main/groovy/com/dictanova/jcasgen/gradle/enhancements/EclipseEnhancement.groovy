@@ -23,8 +23,6 @@ import org.gradle.plugins.ide.eclipse.model.SourceFolder
  */
 class EclipseEnhancement extends GradlePluginEnhancement {
 
-    def jcasgenConvention = project.convention.plugins.jcasgen
-
     EclipseEnhancement(Project project) {
         super(project)
     }

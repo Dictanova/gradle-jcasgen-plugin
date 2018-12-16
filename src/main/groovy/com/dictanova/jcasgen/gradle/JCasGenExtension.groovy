@@ -1,5 +1,5 @@
 /*
-* Copyright 2013-2014 Damien Raude-Morvan
+* Copyright 2018 Damien Raude-Morvan
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -17,16 +17,13 @@ package com.dictanova.jcasgen.gradle
 
 import org.gradle.api.Project
 
-/**
- * @author Damien Raude-Morvan
- */
-class JCasGenConvention {
+class JCasGenExtension {
 
-    def JCasGenConvention(Project project) {
+    def uimaVersion = '2.7.0'
+
+    private final Project project
+
+    JCasGenExtension(Project project) {
+        this.project = project
     }
-
-    /**
-     * XML descriptor which contains UIMA type system.
-     */
-    def String typeSystemDir
 }
