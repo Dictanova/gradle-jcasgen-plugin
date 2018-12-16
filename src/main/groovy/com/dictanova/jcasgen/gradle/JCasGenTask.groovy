@@ -17,7 +17,6 @@ package com.dictanova.jcasgen.gradle
 
 import org.apache.uima.tools.jcasgen.IError
 import org.apache.uima.tools.jcasgen.IProgressMonitor
-import org.apache.uima.tools.jcasgen.Jg
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.Classpath
 import org.gradle.api.tasks.OutputDirectory
@@ -41,12 +40,13 @@ class JCasGenTask extends SourceTask {
     void generate() {
         destinationDir.mkdir()
         logger.debug "JCasGen using files ${source.files}"
+        logger.debug "Classpath ${classpath.asPath}"
 
-        Jg jCasGen = new Jg()
+        def classLoader = new URLClassLoader(classpath.collect { it.toURI().toURL() } as URL[])
+        def jCasGen = classLoader.loadClass('org.apache.uima.tools.jcasgen.Jg').newInstance()
         def allDescriptors = source.files
         allDescriptors.each { File file ->
             logger.debug "${file}"
-            logger.debug "${classpath.asPath}"
             def jgArgs = []
             jgArgs << "-jcasgeninput"
             jgArgs << file
@@ -56,36 +56,38 @@ class JCasGenTask extends SourceTask {
             jgArgs << classpath.asPath
             logger.debug "Launch Jg with args ${jgArgs}"
 
+            // Disable custom progress and error handling
+            //jCasGen.main0(jgArgs as String[], null, new JCasGenProgressMonitor(), new JCasGenErrors())
             // run JCasGen to generate the Java sources
-            jCasGen.main0(jgArgs as String[], null, new JCasGenProgressMonitor(), new JCasGenErrors())
+            jCasGen.main1(jgArgs as String[])
         }
     }
 
     class JCasGenProgressMonitor implements IProgressMonitor {
 
-        public void done() {
+        void done() {
         }
 
-        public void beginTask(String name, int totalWorked) {
+        void beginTask(String name, int totalWorked) {
         }
 
-        public void subTask(String message) {
+        void subTask(String message) {
             JCasGenTask.this.logger.info message
         }
 
-        public void worked(int work) {
+        void worked(int work) {
         }
     }
 
     class JCasGenErrors implements IError {
 
-        public void newError(int severity, String message, Exception exception) {
+        void newError(int severity, String message, Exception exception) {
             String fullMessage = "JCasGen: " + message + exception
-            if (severity == IError.INFO) {
+            if (severity == INFO) {
                 JCasGenTask.this.logger.info fullMessage
-            } else if (severity == IError.WARN) {
+            } else if (severity == WARN) {
                 JCasGenTask.this.logger.warn fullMessage
-            } else if (severity == IError.ERROR) {
+            } else if (severity == ERROR) {
                 JCasGenTask.this.logger.error fullMessage
             } else {
                 throw new UnsupportedOperationException("Unknown severity level: " + severity)
