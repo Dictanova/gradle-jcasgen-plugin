@@ -31,29 +31,38 @@ import org.gradle.api.tasks.SourceSet
 class JCasGenPlugin implements Plugin<Project> {
     private static final String GENERATE_GROUP = 'generate'
 
+    private static final String EXTENSION_NAME = 'jcasgen'
+
+    private Project project
+
     void apply(Project project) {
+        this.project = project
         project.apply plugin: 'java'
-        project.convention.plugins.jcasgen = new JCasGenConvention(project)
-        project.sourceSets.all { SourceSet sourceSet ->
-            setupJCasGenFor(sourceSet, project)
-        }
-
-        configureEnhancements(project)
-    }
-
-    private setupJCasGenFor(SourceSet sourceSet, Project project) {
-        def configName = (sourceSet.getName().equals(SourceSet.MAIN_SOURCE_SET_NAME) ? "jcasgen" : sourceSet.getName() + "Jcasgen")
-        project.configurations.create(configName) {
+        JCasGenExtension ext = project.extensions.create(EXTENSION_NAME, JCasGenExtension, project)
+        project.configurations.create("jcasgen") {
             visible = false
-            transitive = false
             description = "The JCasGen libraries to be used for this project."
             extendsFrom = []
         }
 
-        insertJCasGenSourceDirectorySetInto(sourceSet, project)
+        project.sourceSets.all { SourceSet sourceSet ->
+            setupJCasGenFor(sourceSet)
+        }
+
+        configureEnhancements()
+
+        project.afterEvaluate { Project p ->
+            p.dependencies {
+                jcasgen "org.apache.uima:uimaj-tools:${p.extensions.getByType(JCasGenExtension).uimaVersion}"
+            }
+        }
+    }
+
+    private setupJCasGenFor(SourceSet sourceSet) {
+        insertJCasGenSourceDirectorySetInto(sourceSet)
 
         // Wire task
-        Task jcasgenTask = createJCasGenTaskFor(sourceSet, project)
+        Task jcasgenTask = createJCasGenTaskFor(sourceSet)
 
         // Generate source code before java compile
         String compileJavaTaskName = sourceSet.getCompileTaskName("java")
@@ -61,7 +70,7 @@ class JCasGenPlugin implements Plugin<Project> {
         compileJavaTask.dependsOn(jcasgenTask)
     }
 
-    private insertJCasGenSourceDirectorySetInto(SourceSet sourceSet, Project project) {
+    private insertJCasGenSourceDirectorySetInto(SourceSet sourceSet) {
         def typesystemDir = "src/${sourceSet.name}/typesystem"
 
         sourceSet.convention.plugins.jcasgen = new JCasGenSourceDirectory(sourceSet.name, project.fileResolver)
@@ -69,22 +78,21 @@ class JCasGenPlugin implements Plugin<Project> {
         sourceSet.resources { srcDir typesystemDir }
 
         // Add generated source dir to compilation source
-        sourceSet.java { srcDir generatedJavaDirFor(project, sourceSet) }
+        sourceSet.java { srcDir generatedJavaDirFor(sourceSet) }
     }
 
-    private Task createJCasGenTaskFor(SourceSet sourceSet, Project project) {
+    private Task createJCasGenTaskFor(SourceSet sourceSet) {
         def taskName = taskName(sourceSet)
         def jcasgenTask = project.tasks.create(taskName, JCasGenTask)
         jcasgenTask.group = GENERATE_GROUP
         jcasgenTask.description = "Generates code from the ${sourceSet.name} JCasGen typesystem."
-        jcasgenTask.classpath = sourceSet.compileClasspath + project.files(sourceSet.resources.srcDirs)
+        jcasgenTask.classpath = project.files(sourceSet.resources.srcDirs) + project.configurations.jcasgen
         jcasgenTask.source = sourceSet.jcasgen
-        jcasgenTask.destinationDir = generatedJavaDirFor(project, sourceSet)
-
+        jcasgenTask.destinationDir = generatedJavaDirFor(sourceSet)
         jcasgenTask
     }
 
-    private File generatedJavaDirFor(Project project, SourceSet sourceSet) {
+    private File generatedJavaDirFor(SourceSet sourceSet) {
         def generatedSourceDir = 'generated-src'
         project.file("${project.buildDir}/${generatedSourceDir}/jcasgen/${sourceSet.name}")
     }
@@ -96,7 +104,7 @@ class JCasGenPlugin implements Plugin<Project> {
     /**
      * Configure enhancements so that other Gradle plugins can be "enhanced" by custom behavior.
      */
-    private void configureEnhancements(Project project) {
+    private void configureEnhancements() {
         new EclipseEnhancement(project).apply()
         new IDEAEnhancement(project).apply()
     }
