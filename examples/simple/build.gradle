@@ -1,17 +1,10 @@
 // Declare buildscript dependencies
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.dictanova.jcasgen.gradle:gradle-jcasgen-plugin:0.1'
-    }
+plugins {
+    id 'java'
+    id 'com.dictanova.jcasgen' version '0.5'
+    id 'eclipse'
+    id 'idea'
 }
-// Enable plugins
-apply plugin: 'java'
-apply plugin: 'jcasgen'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
 
 // Project dependencies
 repositories {
@@ -19,6 +12,11 @@ repositories {
     mavenCentral()
 }
 
+jcasgen {
+    // Set UIMA version from gradle.properties
+    uimaVersion "${uimaRelease}"
+}
+
 dependencies {
-    compile "org.apache.uima:uimaj-core:${uimaVersion}"
+    compile "org.apache.uima:uimaj-core:${uimaRelease}"
 }
