@@ -53,6 +53,7 @@ class JCasGenPlugin implements Plugin<Project> {
 
         project.afterEvaluate { Project p ->
             p.dependencies {
+                jcasgen 'org.slf4j:slf4j-simple:1.7.25'
                 jcasgen "org.apache.uima:uimaj-tools:${p.extensions.getByType(JCasGenExtension).uimaVersion}"
             }
         }
